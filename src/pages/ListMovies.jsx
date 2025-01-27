@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import CardMovie from "../components/CardMovie";
+
 
 const ListMovies = () => {
     const [movies, setMovies] = useState([]);
-    console.log(movies)
 
     useEffect(() => {
         axios.get("http://localhost:3001/movies").then(res => {
-            console.log(res.data.data)
             setMovies(res.data.data);
         })
     }, []);
@@ -15,11 +15,22 @@ const ListMovies = () => {
     return (
         <div>
             <h1>Lista Film</h1>
-            <ul>
-                {movies.map(movie => (
-                    <li key={movie.id}>{movie.title}</li>
-                ))}
-            </ul>
+            <div className="row">
+                {movies.map(movie => {
+                    console.log(movie)
+                    return (
+                        <div key={movie.id} className="col-md-4 mb-4">
+                            <CardMovie
+                                title={movie.title}
+                                genre={movie.genre}
+                                release_year={movie.release_year}
+                                abstract={movie.abstract}
+                                image={movie.image}
+                                id={movie.id} />
+                        </div>
+                    )
+                })}
+            </div>
         </div>
 
     )
